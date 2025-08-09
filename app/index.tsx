@@ -3,24 +3,35 @@ import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 const MAX_WATER = 8;
-const STORAGE_KEY = 'WATER_COUNT';
+const STORAGE_KEY_COUNT = 'WATER_COUNT';
+const STORAGE_KEY_DATE = 'LAST_DATE';
 
 export default function Index() {
 
   const [glasses, setGlasses] = useState(0);
 
+  const getToday = () => new Date().toISOString().split('T')[0];
+
   useEffect(() => {
-    const laodGlasses = async () => {
-      const stored = await AsyncStorage.getItem(STORAGE_KEY);
-      if (stored) {
-        setGlasses(parseInt(stored, 10));
+    const loadData = async () => {
+      const storedCount = await AsyncStorage.getItem(STORAGE_KEY_COUNT);
+      const storedDate = await AsyncStorage.getItem(STORAGE_KEY_DATE);
+      const today = getToday();
+      if (storedDate === today && storedCount != null) {
+        setGlasses(parseInt(storedCount, 10));
+      } else {
+
+        setGlasses(0);
+        await AsyncStorage.setItem(STORAGE_KEY_DATE, today);
+        await AsyncStorage.setItem(STORAGE_KEY_COUNT, '0');
       }
     };
-    laodGlasses();
+    loadData();
   }, []);
 
   useEffect(() => {
-    AsyncStorage.setItem(STORAGE_KEY, glasses.toString());
+    AsyncStorage.setItem(STORAGE_KEY_COUNT, glasses.toString());
+    AsyncStorage.setItem(STORAGE_KEY_DATE, getToday());
   }, [glasses]);
 
   const addGlass = () => {
