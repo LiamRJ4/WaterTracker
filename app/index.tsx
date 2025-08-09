@@ -1,11 +1,27 @@
-import { useState } from "react";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 import { Button, StyleSheet, Text, View } from "react-native";
 
 const MAX_WATER = 8;
+const STORAGE_KEY = 'WATER_COUNT';
 
 export default function Index() {
 
   const [glasses, setGlasses] = useState(0);
+
+  useEffect(() => {
+    const laodGlasses = async () => {
+      const stored = await AsyncStorage.getItem(STORAGE_KEY);
+      if (stored) {
+        setGlasses(parseInt(stored, 10));
+      }
+    };
+    laodGlasses();
+  }, []);
+
+  useEffect(() => {
+    AsyncStorage.setItem(STORAGE_KEY, glasses.toString());
+  }, [glasses]);
 
   const addGlass = () => {
     if (glasses < MAX_WATER) setGlasses(glasses + 1);
@@ -14,6 +30,8 @@ export default function Index() {
   const removeGlass = () => {
     if (glasses > 0) setGlasses(glasses - 1);
   };
+
+  const reset = () => setGlasses(0);
 
   return (
     <View 
@@ -26,6 +44,7 @@ export default function Index() {
       <View style={styles.buttonGroup}>
       <Button title="➕ Add" onPress={addGlass} />
       <Button title="➖ Remove" onPress={removeGlass} />
+      <Button title="Reset" onPress={reset}/>
       </View>
     </View>
   );
