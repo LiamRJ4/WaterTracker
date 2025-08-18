@@ -88,9 +88,9 @@ export default function Index() {
 
       </View>
       <View style={styles.buttonGroup}>
-      <ActionButton color="0000FF" title="➕ Add" onPress={addGlass} />
-      <ActionButton color="" title="➖ Remove" onPress={removeGlass} />
-      <ActionButton color="" title="Reset" onPress={reset}/>
+      <ActionButton color="#0000FF" title="➕ Add" onPress={addGlass} />
+      <ActionButton color="#FF0000" title="➖ Remove" onPress={removeGlass} />
+      <ActionButton color="#808080" title="Reset" onPress={reset}/>
       </View>
     </View>
   );
