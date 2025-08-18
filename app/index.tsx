@@ -1,6 +1,7 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useRef, useState } from "react";
-import { Animated, Button, StyleSheet, Text, View } from "react-native";
+import { Animated, StyleSheet, Text, View } from "react-native";
+import ActionButton from "./components/ActionButton";
 
 const MAX_WATER = 8;
 const STORAGE_KEY_COUNT = 'WATER_COUNT';
@@ -87,9 +88,9 @@ export default function Index() {
 
       </View>
       <View style={styles.buttonGroup}>
-      <Button title="➕ Add" onPress={addGlass} />
-      <Button title="➖ Remove" onPress={removeGlass} />
-      <Button title="Reset" onPress={reset}/>
+      <ActionButton color="0000FF" title="➕ Add" onPress={addGlass} />
+      <ActionButton color="" title="➖ Remove" onPress={removeGlass} />
+      <ActionButton color="" title="Reset" onPress={reset}/>
       </View>
     </View>
   );
