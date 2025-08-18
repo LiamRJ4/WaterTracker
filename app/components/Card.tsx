@@ -21,5 +21,9 @@ const styles = StyleSheet.create({
     shadowRadius: 6,
     elevation: 4, // Android shadow
     marginBottom: 20,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 20,
+    marginTop: 100, 
   },
 });

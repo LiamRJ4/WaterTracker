@@ -2,6 +2,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useEffect, useState } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import ActionButton from "./components/ActionButton";
+import WaterCard from "./components/Card";
 import ProgressBar from "./components/ProgressBar";
 
 const MAX_WATER = 8;
@@ -61,8 +62,7 @@ export default function Index() {
 
 
   return (
-    <View 
-    style={styles.container}
+    <WaterCard 
     >
       <Text style={styles.title}>Water Tracker!</Text>
       <Text style={styles.counter}>
@@ -70,14 +70,13 @@ export default function Index() {
       </Text>
       <View style={styles.progressBarBackground}>
         <ProgressBar progress={progress} color="#38bdf8"/>
-
       </View>
       <View style={styles.buttonGroup}>
       <ActionButton color="#0000FF" title="➕ Add" onPress={addGlass} />
       <ActionButton color="#FF0000" title="➖ Remove" onPress={removeGlass} />
       <ActionButton color="#808080" title="Reset" onPress={reset}/>
       </View>
-    </View>
+    </WaterCard>
   );
 }
 
@@ -101,7 +100,8 @@ const styles = StyleSheet.create({
   }, 
   buttonGroup: {
     flexDirection: 'row', 
-    gap: 10, 
+    gap: 5, 
+    padding: 10,
   },
   progressBarBackground: {
     height: 20,
