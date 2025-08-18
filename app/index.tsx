@@ -1,7 +1,8 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useEffect, useRef, useState } from "react";
-import { Animated, StyleSheet, Text, View } from "react-native";
+import { useEffect, useState } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import ActionButton from "./components/ActionButton";
+import ProgressBar from "./components/ProgressBar";
 
 const MAX_WATER = 8;
 const STORAGE_KEY_COUNT = 'WATER_COUNT';
@@ -15,7 +16,8 @@ export default function Index() {
 
   const getToday = () => new Date().toISOString().split('T')[0];
 
-  const progressAnim = useRef(new Animated.Value(0)).current;
+  const progress = Math.min(glasses / MAX_WATER, 1); 
+
 
   // Load stored data and reset logic for daily use
 
@@ -42,13 +44,6 @@ export default function Index() {
     AsyncStorage.setItem(STORAGE_KEY_COUNT, glasses.toString());
     AsyncStorage.setItem(STORAGE_KEY_DATE, getToday());
 
-    // Animate progress bar
-
-    Animated.timing(progressAnim, {
-      toValue: glasses / MAX_WATER, 
-      duration: 500, 
-      useNativeDriver: false,
-    }).start();
 
   }, [glasses]);
 
@@ -64,10 +59,6 @@ export default function Index() {
 
   const reset = () => setGlasses(0);
 
-  const progressWidth = progressAnim.interpolate({
-    inputRange: [0,1], 
-    outputRange: ['0%', '100%'],
-  });
 
   return (
     <View 
@@ -78,13 +69,7 @@ export default function Index() {
         {glasses} / {MAX_WATER} glasses
       </Text>
       <View style={styles.progressBarBackground}>
-        <Animated.View
-          style={[
-            styles.progressBarFill,
-            {width: progressWidth}, 
-            glasses >= MAX_WATER && { backgroundColor: '#4ade80'},
-          ]}
-        />
+        <ProgressBar progress={progress} color="#38bdf8"/>
 
       </View>
       <View style={styles.buttonGroup}>
