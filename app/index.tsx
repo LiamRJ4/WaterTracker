@@ -62,6 +62,7 @@ export default function Index() {
 
 
   return (
+    <View style={styles.background}>
     <WaterCard 
     >
       <Text style={styles.title}>Water Tracker!</Text>
@@ -77,10 +78,16 @@ export default function Index() {
       <ActionButton color="#808080" title="Reset" onPress={reset}/>
       </View>
     </WaterCard>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
+
+  background: {
+    flex: 1, 
+    backgroundColor: '#e0f7fa', 
+  },
   container: {
     flex: 1, 
     backgroundColor: '#e0f7fa', 
