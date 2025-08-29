@@ -23,6 +23,9 @@ export default function Home() {
 
   const router = useRouter();
 
+  const [name, setName] = useState<string | null>(null);
+  const [goal, setGoal] = useState<string | null>(null);
+
 
   // Load stored data and reset logic for daily use
 
@@ -31,6 +34,7 @@ export default function Home() {
       const storedCount = await AsyncStorage.getItem(STORAGE_KEY_COUNT);
       const storedDate = await AsyncStorage.getItem(STORAGE_KEY_DATE);
       const today = getToday();
+
       if (storedDate === today && storedCount != null) {
         setGlasses(parseInt(storedCount, 10));
       } else {
@@ -38,6 +42,15 @@ export default function Home() {
         setGlasses(0);
         await AsyncStorage.setItem(STORAGE_KEY_DATE, today);
         await AsyncStorage.setItem(STORAGE_KEY_COUNT, '0');
+      }
+      try{
+      const storedName = await AsyncStorage.getItem("userName");
+      const storedGoal = await AsyncStorage.getItem("userGoal");
+
+      if (storedName) setName(storedName);
+      if (storedGoal) setGoal(storedGoal);
+      } catch (e) {
+        console.error("Failed to load user data", e);
       }
     };
     loadData();
@@ -64,9 +77,11 @@ export default function Home() {
 
   const reset = () => setGlasses(0);
 
-
   return (
     <View style={styles.background}>
+        <View style={styles.container}>
+        <Text style={styles.title}>{name ? `Welcome back, ${name}! 👋`: "Welcome!"}</Text>
+        </View>
     <WaterCard 
     >
       <Text style={styles.title}>Water Tracker!</Text>
@@ -84,6 +99,7 @@ export default function Home() {
     </WaterCard>
     <View style={styles.resetContainer}>
     <Button title="Reset Async Data" onPress={() => resetAsyncStorage(router)}/>
+    
     </View>
     </View>
   );
@@ -93,7 +109,8 @@ const styles = StyleSheet.create({
 
   background: {
     flex: 1, 
-    backgroundColor: '#e0f7fa', 
+    backgroundColor: '#e0f7fa',
+    alignItems: 'center', 
   },
   container: {
     flex: 1, 
