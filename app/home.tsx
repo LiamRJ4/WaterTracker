@@ -1,15 +1,17 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useRouter } from "expo-router";
 import { useEffect, useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { Button, StyleSheet, Text, View } from "react-native";
 import ActionButton from "./components/ActionButton";
 import WaterCard from "./components/Card";
 import ProgressBar from "./components/ProgressBar";
+import { resetAsyncStorage } from "./components/resetAsync";
 
 const MAX_WATER = 8;
 const STORAGE_KEY_COUNT = 'WATER_COUNT';
 const STORAGE_KEY_DATE = 'LAST_DATE';
 
-export default function Index() {
+export default function Home() {
 
   // Set constants for water count and date
 
@@ -18,6 +20,8 @@ export default function Index() {
   const getToday = () => new Date().toISOString().split('T')[0];
 
   const progress = Math.min(glasses / MAX_WATER, 1); 
+
+  const router = useRouter();
 
 
   // Load stored data and reset logic for daily use
@@ -78,6 +82,9 @@ export default function Index() {
       <ActionButton color="#808080" title="Reset" onPress={reset}/>
       </View>
     </WaterCard>
+    <View style={styles.resetContainer}>
+    <Button title="Reset Async Data" onPress={() => resetAsyncStorage(router)}/>
+    </View>
     </View>
   );
 }
@@ -122,4 +129,8 @@ const styles = StyleSheet.create({
     height: '100%', 
     backgroundColor: '#38bdf8'
   },
+  resetContainer: {
+    flex: 1, 
+
+  }
 });

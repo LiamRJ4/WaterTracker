@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useRouter } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import InfoForm from "./forms/info-form";
@@ -7,6 +8,7 @@ export default function Index() {
 
   const [loading, setLoading] = useState(true);
   const [hasUserInfo, setHasUserInfo] = useState(false);
+  const router = useRouter(); 
 
   useEffect(() => {
     const checkUserInfo = async () => {
@@ -15,6 +17,7 @@ export default function Index() {
 
       if (name && goal) {
         setHasUserInfo(true);
+        router.replace("./home")
         console.log("user has info");
       }
       setLoading(false);
@@ -25,7 +28,7 @@ export default function Index() {
   if (loading) {
     return (
       <View style={styles.background}>
-        <Text>Loading</Text>
+        <Text>Loading...</Text>
       </View>
     );
   }
@@ -42,6 +45,6 @@ export default function Index() {
 const styles = StyleSheet.create({
   background: {
     flex: 1, 
-    backgroundColor: '#e0f7fa',
+    backgroundColor: '#4169E1',
   } 
 });
